@@ -1,0 +1,30 @@
+CREATE TABLE IF NOT EXISTS tm_user (
+		user_id INTEGER PRIMARY KEY AUTOINCREMENT,
+		name VARCHAR(255) NOT NULL,
+		email VARCHAR(255) NOT NULL UNIQUE,
+		password VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS tm_room (
+	room_id INTEGER PRIMARY KEY AUTOINCREMENT,
+	name VARCHAR(255) NOT NULL,
+	password VARCHAR(255),
+	owner INTEGER,
+);
+
+CREATE TABLE IF NOT EXISTS tr_conversation (
+	conversation_id INTEGER PRIMARY KEY AUTOINCREMENT,
+	room_id INTEGER,
+	user_id INTEGER,
+	FOREIGN KEY (room_id) REFERENCES tm_room (room_id),
+	FOREIGN KEY (user_id) REFERENCES tm_user (user_id)
+);
+
+CREATE TABLE IF NOT EXISTS tm_message (
+		message_id INTEGER PRIMARY KEY AUTOINCREMENT,
+		user_id INTEGER,
+		room_id INTEGER,
+		content TEXT NOT NULL,
+		timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+		FOREIGN KEY (user_id) REFERENCES tm_user (user_id),
+);
